@@ -1,3 +1,5 @@
+. .\SonarQubeHelper.ps1
+
 function InvokeMsBuildRunnerPostTest
 {
 	$bootstrapperPath = GetBootsrapperPath
@@ -76,7 +78,6 @@ function UploadSummaryMdReport
 	}
 }
 
-
 function HandleCodeAnalysisReporting
 {
 	$sonarQubeAnalysisModeIsIncremental = GetTaskContextVariable "MsBuild.SonarQube.AnalysisModeIsIncremental"
@@ -84,56 +85,4 @@ function HandleCodeAnalysisReporting
 	{
 		GenerateCodeAnalysisReport  
 	}
-}
-
-
-
-function BreakBuildOnQualityGateFailure
-{
-    $breakBuild = GetTaskContextVariable "MsBuild.SonarQube.BreakBuild"        
-    $breakBuildEnabled = Convert-String $breakBuild Boolean
-
-    if ($breakBuildEnabled)
-    {
-        Write-Verbose "Waiting for the build to complete to analyze quality gate success."
-        $sonarDir = GetSonarScannerDirectory 
-        $reportTaskFile = [System.IO.Path]::Combine($sonarDir, "report-task.txt");
-
-        if (![System.IO.File]::Exists($reportTaskFile))
-        {
-            Write-Verbose "Could not find the task details file at $reportTaskFile"
-            throw "Cannot determine if the analysis has finished. Possible cause: your SonarQube server version is lower than 5.3 - for more details on how to break the build in this case see http://go.microsoft.com/fwlink/?LinkId=722407"
-        }
-
-            // TODO 
-
-    }
-    else
-    {
-        Write-Verbose "Build not set to fail if the associated quality gate fails."
-    }
-}
-
-
-
-
-################# Helpers ######################
-
-
-function GetSonarQubeBuildDirectory
-{
-    $agentBuildDirectory = GetTaskContextVariable "Agent.BuildDirectory" 
-	if (!$agentBuildDirectory)
-	{
-		throw "Could not retrieve the Agent.BuildDirectory variable";
-	}
-
-	return [System.IO.Path]::Combine($agentBuildDirectory, ".sonarqube");
-}
-
-function GetSonarScannerDirectory
-{
-    $sqBuildDir = GetSonarQubeBuildDirectory
-    
-    return [System.IO.Path]::Combine($sqBuildDir, "out", ".sonar");
 }

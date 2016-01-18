@@ -1,12 +1,12 @@
 [CmdletBinding(DefaultParameterSetName = 'None')]
 param(
-	[string][Parameter(Mandatory=$true)][ValidateNotNullOrEmpty()] $connectedServiceName,
+    [string][Parameter(Mandatory=$true)][ValidateNotNullOrEmpty()] $connectedServiceName,
     [string][Parameter(Mandatory=$true)][ValidateNotNullOrEmpty()] $projectKey,
     [string][Parameter(Mandatory=$true)][ValidateNotNullOrEmpty()] $projectName,
     [string][Parameter(Mandatory=$true)][ValidateNotNullOrEmpty()] $projectVersion,	
-	[string]$dbUrl,
-	[string]$dbUsername,
-	[string]$dbPassword,
+    [string]$dbUrl,
+    [string]$dbUsername,
+    [string]$dbPassword,
     [string]$cmdLineArgs,
     [string]$configFile,
     [string]$breakBuild
@@ -20,6 +20,7 @@ Write-Verbose "projectName = $projectName"
 Write-Verbose "cmdLineArgs = $cmdLineArgs"
 Write-Verbose "configFile = $configFile"
 Write-Verbose "dbConnectionString = $dbUrl"
+Write-Verbose "breakBuild = $breakBuild"
 
 import-module "Microsoft.TeamFoundation.DistributedTask.Task.Common"
 . ./SonarQubeHelper.ps1

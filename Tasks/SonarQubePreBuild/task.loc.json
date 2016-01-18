@@ -117,6 +117,15 @@
       "required": false,
       "helpMarkDown": "ms-resource:loc.input.help.configFile",
       "groupName": "advanced"
+    },
+    {
+      "name": "breakBuild",
+      "type": "boolean",
+      "defaultValue": "",
+      "label": "ms-resource:loc.input.label.breakBuild",
+      "required": false,
+      "helpMarkDown": "ms-resource:loc.input.help.breakBuild",
+      "groupName": "advanced"
     }
   ],
   "instanceNameFormat": "ms-resource:loc.instanceNameFormat",

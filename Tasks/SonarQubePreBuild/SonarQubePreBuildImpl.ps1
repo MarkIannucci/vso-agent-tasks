@@ -10,11 +10,8 @@ function StoreParametersInTaskContext
           [string]$breakBuild)
 	
     SetTaskContextVariable "MsBuild.SonarQube.BootstrapperPath" $bootstrapperPath    
-    SetTaskContextVariable "MsBuild.SonarQube.HostUrl" $hostUrl
-   
-    SetTaskContextVariable "MsBuild.SonarQube.BreakBuild" $breakBuild
-
-    # Not used by the "end task", but asked for by the community
+    SetTaskContextVariable "MsBuild.SonarQube.HostUrl" $hostUrl   
+    SetTaskContextVariable "MsBuild.SonarQube.BreakBuild" $breakBuild    
     SetTaskContextVariable "MsBuild.SonarQube.ProjectUri" $dahsboardUrl
 }
 
@@ -112,10 +109,8 @@ function CreateCommandLineArgs
 }
 
 function UpdateArgsForPullRequestAnalysis($cmdLineArgs)
-{
-    
-    $prcaEnabled = GetTaskContextVariable "PullRequestSonarQubeCodeAnalysisEnabled"
-    if ($prcaEnabled -ieq "true")
+{       
+    if (IsPrBuild)
     {
         if ($cmdLineArgs -and $cmdLineArgs.ToString().Contains("sonar.analysis.mode"))
         {
